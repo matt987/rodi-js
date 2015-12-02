@@ -3,6 +3,15 @@
 var robot_ip = '192.168.4.1';
 var robot_port = '1234';
 
+var Request = function() {};
+Request.get = function(url) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", url, false );
+  xmlHttp.send( null );
+  return xmlHttp.responseText;
+}
+
+
 var RoDI = function() {
   this.blink_method = 1;
   this.sense_method = 2;
@@ -19,38 +28,105 @@ var RoDI = function() {
     buffer = ["http://", 
               this.ip, ":", 
               this.port, "/",
-              method, "/"
+              method, "/",
               args.join('/')];
     return buffer.join("");
   };
 
+  this.blink = function(milliseconds){
+      var url = this.build_url(
+                this.blink_method,
+                [milliseconds]
+              );
+      Request.get(url);      
+  };
+
   this.move = function(left_wheel_speed, right_wheel_speed) {
+      var url = this.build_url(
+                this.move_method,
+                [left_wheel_speed, right_wheel_speed]
+              );
+      Request.get(url);
 
   };
 
-  this.blink = function(){};
+  this.move_left = function(){
+    this.move(-100,100);
+  };
 
-  this.move_left = function(){};
+  this.move_rigth = function(){
+    this.move(100, -100);
+  };
 
-  this.move_rigth = function(){};
+  this.move_forward = function(){
+    this.move(100,100);
+  };
 
-  this.move_forward = function(){};
+  this.move_backward = function(){
+    this.move(-100, -100);
+  };
 
-  this.move_backward = function(){};
+  this.move_stop = function(){
+    this.move(0,0);
+  };
 
-  this.move_stop = function(){};
+  this.step_forward = function(){
+    this.move_forward();
+    this.move_stop();
+  }
 
-  this.sing = function(note, duration){};
+  this.step_backward = function(){
+    this.move_backward();
+    this.move_stop();
+  }  
 
-  this.see = function(){};
+  this.sing = function(note, duration){
+      var url = this.build_url(
+                this.sing_method,
+                [note, duration]
+              );
+      Request.get(url);    
+  };
 
-  this.sense = function(){};
+  this.see = function(){
+      var url = this.build_url(
+                this.see_method,
+                []
+              );
+      Request.get(url);      
+  };
 
-  this.pixel = function(red, green, blue){};
+  this.sense = function(){
+      var url = this.build_url(
+                this.sese_method,
+                []
+              );
+      Request.get(url);     
+  };
 
-  this.light = function(){};
+  this.pixel = function(red, green, blue){
+      var url = this.build_url(
+                this.pixel_method,
+                [red, green, blue]
+              );
+      Request.get(url);     
+  };
 
-  this.led = function(state){};
+  this.light = function(){
+      var url = this.build_url(
+                this.light_method,
+                []
+              );
+      Request.get(url);     
+  };
+
+  this.led = function(state){
+      var url = this.build_url(
+                this.state_method,
+                [state]
+              );
+      Request.get(url);     
+  };
 
 }
 
