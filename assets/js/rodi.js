@@ -5,10 +5,21 @@ var robot_port = '1234';
 
 var Request = function() {};
 Request.get = function(url) {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", url, false );
-  xmlHttp.send( null );
-  return xmlHttp.responseText;
+  console.log(url);
+  var xmlhttp;
+  if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+  } else {
+    // code for older browsers
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      console.log("WORKS");
+    }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();  
 }
 
 
