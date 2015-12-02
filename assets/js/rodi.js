@@ -91,6 +91,16 @@ var RoDI = function() {
     this.move_stop();
   }  
 
+  this.step_left = function(){
+    this.move_left();
+    this.move_stop();
+  }    
+
+  this.step_rigth = function(){
+    this.move_rigth();
+    this.move_stop();
+  }    
+
   this.sing = function(note, duration){
       var url = this.build_url(
                 this.sing_method,
